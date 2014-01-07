@@ -248,6 +248,7 @@ double	lgamma(double) __NDK_FPABI_MATH__;
 long long llrint(double) __NDK_FPABI_MATH__;
 long long llround(double) __NDK_FPABI_MATH__;
 double	log1p(double) __NDK_FPABI_MATH__;
+double	log2(double) __NDK_FPABI_MATH__;
 double	logb(double) __NDK_FPABI_MATH__;
 long	lrint(double) __NDK_FPABI_MATH__;
 long	lround(double) __NDK_FPABI_MATH__;
@@ -328,6 +329,7 @@ int	ilogbf(float) __NDK_FPABI_MATH__ __pure2;
 float	ldexpf(float, int) __NDK_FPABI_MATH__;
 float	log10f(float) __NDK_FPABI_MATH__;
 float	log1pf(float) __NDK_FPABI_MATH__;
+float	log2f(float) __NDK_FPABI_MATH__;
 float	logf(float) __NDK_FPABI_MATH__;
 float	modff(float, float *) __NDK_FPABI_MATH__;	/* fundamentally !__pure2 */
 
@@ -450,8 +452,9 @@ long long	llroundl(long double) __NDK_FPABI_MATH__;
 long double	log10l(long double) __NDK_FPABI_MATH__;
 long double	log1pl(long double) __NDK_FPABI_MATH__;
 long double	log2l(long double) __NDK_FPABI_MATH__;
+#endif
 long double	logbl(long double) __NDK_FPABI_MATH__;
-long double	logl(long double) __NDK_FPABI_MATH__;
+#if 0
 long		lrintl(long double) __NDK_FPABI_MATH__;
 #endif
 long		lroundl(long double) __NDK_FPABI_MATH__;
@@ -493,6 +496,7 @@ void  sincosl(long double x, long double *sin, long double *cos) __NDK_FPABI_MAT
 #endif
 
 /* #endif */ /* __ISO_C_VISIBLE >= 1999 */
+long double	log2l(long double) __NDK_FPABI_MATH__;
 __END_DECLS
 
 #endif /* !_MATH_H_ */

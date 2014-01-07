@@ -17,11 +17,12 @@
 #ifndef ANDROID_BITMAP_H
 #define ANDROID_BITMAP_H
 
-#include <sys/cdefs.h>
 #include <stdint.h>
 #include <jni.h>
 
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define ANDROID_BITMAP_RESULT_SUCCESS            0
 #define ANDROID_BITMAP_RESULT_BAD_PARAMETER     -1
@@ -74,6 +75,8 @@ int AndroidBitmap_lockPixels(JNIEnv* env, jobject jbitmap, void** addrPtr);
  */
 int AndroidBitmap_unlockPixels(JNIEnv* env, jobject jbitmap);
 
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
-#endif /* ANDROID_BITMAP_H */
+#endif
