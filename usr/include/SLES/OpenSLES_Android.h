@@ -17,6 +17,9 @@
 #ifndef OPENSL_ES_ANDROID_H_
 #define OPENSL_ES_ANDROID_H_
 
+#include "OpenSLES_AndroidConfiguration.h"
+#include "OpenSLES_AndroidMetadata.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -25,14 +28,15 @@ extern "C" {
 /* Android common types                                                      */
 /*---------------------------------------------------------------------------*/
 
-typedef sl_int64_t             SLAint64;           /* 64 bit signed integer */
+typedef sl_int64_t             SLAint64;          /* 64 bit signed integer   */
 
+typedef sl_uint64_t            SLAuint64;         /* 64 bit unsigned integer */
 
 /*---------------------------------------------------------------------------*/
 /* Android Effect interface                                                  */
 /*---------------------------------------------------------------------------*/
 
-extern SLAPIENTRY const SLInterfaceID SL_IID_ANDROIDEFFECT;
+extern SL_API const SLInterfaceID SL_IID_ANDROIDEFFECT;
 
 /** Android Effect interface methods */
 
@@ -69,7 +73,7 @@ struct SLAndroidEffectItf_ {
 /* Android Effect Send interface                                             */
 /*---------------------------------------------------------------------------*/
 
-extern SLAPIENTRY const SLInterfaceID SL_IID_ANDROIDEFFECTSEND;
+extern SL_API const SLInterfaceID SL_IID_ANDROIDEFFECTSEND;
 
 /** Android Effect Send interface methods */
 
@@ -113,7 +117,7 @@ struct SLAndroidEffectSendItf_ {
 /* Android Effect Capabilities interface                                     */
 /*---------------------------------------------------------------------------*/
 
-extern SLAPIENTRY const SLInterfaceID SL_IID_ANDROIDEFFECTCAPABILITIES;
+extern SL_API const SLInterfaceID SL_IID_ANDROIDEFFECTCAPABILITIES;
 
 /** Android Effect Capabilities interface methods */
 
@@ -138,7 +142,7 @@ struct SLAndroidEffectCapabilitiesItf_ {
 /*---------------------------------------------------------------------------*/
 /* Android Configuration interface                                           */
 /*---------------------------------------------------------------------------*/
-extern SLAPIENTRY const SLInterfaceID SL_IID_ANDROIDCONFIGURATION;
+extern SL_API const SLInterfaceID SL_IID_ANDROIDCONFIGURATION;
 
 /** Android Configuration interface methods */
 
@@ -164,12 +168,12 @@ struct SLAndroidConfigurationItf_ {
 /* Android Simple Buffer Queue Interface                                     */
 /*---------------------------------------------------------------------------*/
 
-extern SLAPIENTRY const SLInterfaceID SL_IID_ANDROIDSIMPLEBUFFERQUEUE;
+extern SL_API const SLInterfaceID SL_IID_ANDROIDSIMPLEBUFFERQUEUE;
 
 struct SLAndroidSimpleBufferQueueItf_;
 typedef const struct SLAndroidSimpleBufferQueueItf_ * const * SLAndroidSimpleBufferQueueItf;
 
-typedef void (/*SLAPIENTRY*/ *slAndroidSimpleBufferQueueCallback)(
+typedef void (SLAPIENTRY *slAndroidSimpleBufferQueueCallback)(
 	SLAndroidSimpleBufferQueueItf caller,
 	void *pContext
 );
@@ -204,6 +208,90 @@ struct SLAndroidSimpleBufferQueueItf_ {
 
 
 /*---------------------------------------------------------------------------*/
+/* Android Buffer Queue Interface                                            */
+/*---------------------------------------------------------------------------*/
+
+extern SL_API const SLInterfaceID SL_IID_ANDROIDBUFFERQUEUESOURCE;
+
+struct SLAndroidBufferQueueItf_;
+typedef const struct SLAndroidBufferQueueItf_ * const * SLAndroidBufferQueueItf;
+
+#define SL_ANDROID_ITEMKEY_NONE             ((SLuint32) 0x00000000)
+#define SL_ANDROID_ITEMKEY_EOS              ((SLuint32) 0x00000001)
+#define SL_ANDROID_ITEMKEY_DISCONTINUITY    ((SLuint32) 0x00000002)
+#define SL_ANDROID_ITEMKEY_BUFFERQUEUEEVENT ((SLuint32) 0x00000003)
+#define SL_ANDROID_ITEMKEY_FORMAT_CHANGE    ((SLuint32) 0x00000004)
+
+#define SL_ANDROIDBUFFERQUEUEEVENT_NONE        ((SLuint32) 0x00000000)
+#define SL_ANDROIDBUFFERQUEUEEVENT_PROCESSED   ((SLuint32) 0x00000001)
+#if 0   // reserved for future use
+#define SL_ANDROIDBUFFERQUEUEEVENT_UNREALIZED  ((SLuint32) 0x00000002)
+#define SL_ANDROIDBUFFERQUEUEEVENT_CLEARED     ((SLuint32) 0x00000004)
+#define SL_ANDROIDBUFFERQUEUEEVENT_STOPPED     ((SLuint32) 0x00000008)
+#define SL_ANDROIDBUFFERQUEUEEVENT_ERROR       ((SLuint32) 0x00000010)
+#define SL_ANDROIDBUFFERQUEUEEVENT_CONTENT_END ((SLuint32) 0x00000020)
+#endif
+
+typedef struct SLAndroidBufferItem_ {
+    SLuint32 itemKey;  // identifies the item
+    SLuint32 itemSize;
+    SLuint8  itemData[0];
+} SLAndroidBufferItem;
+
+typedef SLresult (SLAPIENTRY *slAndroidBufferQueueCallback)(
+    SLAndroidBufferQueueItf caller,/* input */
+    void *pCallbackContext,        /* input */
+    void *pBufferContext,          /* input */
+    void *pBufferData,             /* input */
+    SLuint32 dataSize,             /* input */
+    SLuint32 dataUsed,             /* input */
+    const SLAndroidBufferItem *pItems,/* input */
+    SLuint32 itemsLength           /* input */
+);
+
+typedef struct SLAndroidBufferQueueState_ {
+    SLuint32    count;
+    SLuint32    index;
+} SLAndroidBufferQueueState;
+
+struct SLAndroidBufferQueueItf_ {
+    SLresult (*RegisterCallback) (
+        SLAndroidBufferQueueItf self,
+        slAndroidBufferQueueCallback callback,
+        void* pCallbackContext
+    );
+
+    SLresult (*Clear) (
+        SLAndroidBufferQueueItf self
+    );
+
+    SLresult (*Enqueue) (
+        SLAndroidBufferQueueItf self,
+        void *pBufferContext,
+        void *pData,
+        SLuint32 dataLength,
+        const SLAndroidBufferItem *pItems,
+        SLuint32 itemsLength
+    );
+
+    SLresult (*GetState) (
+        SLAndroidBufferQueueItf self,
+        SLAndroidBufferQueueState *pState
+    );
+
+    SLresult (*SetCallbackEventsMask) (
+            SLAndroidBufferQueueItf self,
+            SLuint32 eventFlags
+    );
+
+    SLresult (*GetCallbackEventsMask) (
+            SLAndroidBufferQueueItf self,
+            SLuint32 *pEventFlags
+    );
+};
+
+
+/*---------------------------------------------------------------------------*/
 /* Android File Descriptor Data Locator                                      */
 /*---------------------------------------------------------------------------*/
 
@@ -234,6 +322,25 @@ typedef struct SLDataLocator_AndroidSimpleBufferQueue {
 	SLuint32	numBuffers;
 } SLDataLocator_AndroidSimpleBufferQueue;
 
+
+/*---------------------------------------------------------------------------*/
+/* Android Buffer Queue Data Locator                                         */
+/*---------------------------------------------------------------------------*/
+
+/** Addendum to Data locator macros  */
+#define SL_DATALOCATOR_ANDROIDBUFFERQUEUE       ((SLuint32) 0x800007BE)
+
+/** Android Buffer Queue-based data locator definition,
+ *  locatorType must be SL_DATALOCATOR_ANDROIDBUFFERQUEUE */
+typedef struct SLDataLocator_AndroidBufferQueue_ {
+    SLuint32    locatorType;
+    SLuint32    numBuffers;
+} SLDataLocator_AndroidBufferQueue;
+
+/**
+ * MIME types required for data in Android Buffer Queues
+ */
+#define SL_ANDROID_MIME_AACADTS            ((SLchar *) "audio/vnd.android.aac-adts")
 
 #ifdef __cplusplus
 }
