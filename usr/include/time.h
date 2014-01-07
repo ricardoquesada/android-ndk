@@ -94,15 +94,21 @@ extern long int  timezone;
 extern clock_t   clock(void);
 
 /* BIONIC: extra linux clock goodies */
-extern int clock_getres(int, struct timespec *);
-extern int clock_gettime(int, struct timespec *);
+extern int clock_getres(clockid_t, struct timespec *);
+extern int clock_gettime(clockid_t, struct timespec *);
+extern int clock_settime(clockid_t, const struct timespec *);
+extern int clock_nanosleep(clockid_t, int, const struct timespec *, struct timespec *);
 
 #define CLOCK_REALTIME             0
 #define CLOCK_MONOTONIC            1
 #define CLOCK_PROCESS_CPUTIME_ID   2
 #define CLOCK_THREAD_CPUTIME_ID    3
-#define CLOCK_REALTIME_HR          4
-#define CLOCK_MONOTONIC_HR         5
+#define CLOCK_MONOTONIC_RAW        4
+#define CLOCK_REALTIME_COARSE      5
+#define CLOCK_MONOTONIC_COARSE     6
+#define CLOCK_BOOTTIME             7
+#define CLOCK_REALTIME_ALARM       8
+#define CLOCK_BOOTTIME_ALARM       9
 
 extern int  timer_create(int, struct sigevent*, timer_t*);
 extern int  timer_delete(timer_t);
