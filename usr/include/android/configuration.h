@@ -40,6 +40,7 @@ enum {
     ACONFIGURATION_DENSITY_DEFAULT = 0,
     ACONFIGURATION_DENSITY_LOW = 120,
     ACONFIGURATION_DENSITY_MEDIUM = 160,
+    ACONFIGURATION_DENSITY_TV = 213,
     ACONFIGURATION_DENSITY_HIGH = 240,
     ACONFIGURATION_DENSITY_NONE = 0xffff,
 
@@ -77,10 +78,17 @@ enum {
     ACONFIGURATION_UI_MODE_TYPE_NORMAL = 0x01,
     ACONFIGURATION_UI_MODE_TYPE_DESK = 0x02,
     ACONFIGURATION_UI_MODE_TYPE_CAR = 0x03,
+    ACONFIGURATION_UI_MODE_TYPE_TELEVISION = 0x04,
 
     ACONFIGURATION_UI_MODE_NIGHT_ANY = 0x00,
     ACONFIGURATION_UI_MODE_NIGHT_NO = 0x1,
     ACONFIGURATION_UI_MODE_NIGHT_YES = 0x2,
+
+    ACONFIGURATION_SCREEN_WIDTH_DP_ANY = 0x0000,
+
+    ACONFIGURATION_SCREEN_HEIGHT_DP_ANY = 0x0000,
+
+    ACONFIGURATION_SMALLEST_SCREEN_WIDTH_DP_ANY = 0x0000,
 
     ACONFIGURATION_MCC = 0x0001,
     ACONFIGURATION_MNC = 0x0002,
@@ -95,6 +103,7 @@ enum {
     ACONFIGURATION_VERSION = 0x0400,
     ACONFIGURATION_SCREEN_LAYOUT = 0x0800,
     ACONFIGURATION_UI_MODE = 0x1000,
+    ACONFIGURATION_SMALLEST_SCREEN_SIZE = 0x2000,
 };
 
 /**
@@ -284,6 +293,39 @@ int32_t AConfiguration_getUiModeNight(AConfiguration* config);
  * Set the current UI mode night in the configuration.
  */
 void AConfiguration_setUiModeNight(AConfiguration* config, int32_t uiModeNight);
+
+/**
+ * Return the current configuration screen width in dp units, or
+ * ACONFIGURATION_SCREEN_WIDTH_DP_ANY if not set.
+ */
+int32_t AConfiguration_getScreenWidthDp(AConfiguration* config);
+
+/**
+ * Set the configuration's current screen width in dp units.
+ */
+void AConfiguration_setScreenWidthDp(AConfiguration* config, int32_t value);
+
+/**
+ * Return the current configuration screen height in dp units, or
+ * ACONFIGURATION_SCREEN_HEIGHT_DP_ANY if not set.
+ */
+int32_t AConfiguration_getScreenHeightDp(AConfiguration* config);
+
+/**
+ * Set the configuration's current screen width in dp units.
+ */
+void AConfiguration_setScreenHeightDp(AConfiguration* config, int32_t value);
+
+/**
+ * Return the configuration's smallest screen width in dp units, or
+ * ACONFIGURATION_SMALLEST_SCREEN_WIDTH_DP_ANY if not set.
+ */
+int32_t AConfiguration_getSmallestScreenWidthDp(AConfiguration* config);
+
+/**
+ * Set the configuration's smallest screen width in dp units.
+ */
+void AConfiguration_setSmallestScreenWidthDp(AConfiguration* config, int32_t value);
 
 /**
  * Perform a diff between two configurations.  Returns a bit mask of

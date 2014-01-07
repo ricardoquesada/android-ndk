@@ -251,6 +251,7 @@ double	log1p(double) __NDK_FPABI_MATH__;
 double	logb(double) __NDK_FPABI_MATH__;
 long	lrint(double) __NDK_FPABI_MATH__;
 long	lround(double) __NDK_FPABI_MATH__;
+double	nan(const char *) __NDK_FPABI_MATH__ __pure2;
 double	nextafter(double, double) __NDK_FPABI_MATH__;
 double	remainder(double, double) __NDK_FPABI_MATH__;
 double	remquo(double, double, int *) __NDK_FPABI_MATH__;
@@ -343,6 +344,7 @@ float	erff(float) __NDK_FPABI_MATH__;
 float	erfcf(float) __NDK_FPABI_MATH__;
 float	hypotf(float, float) __NDK_FPABI_MATH__;
 float	lgammaf(float) __NDK_FPABI_MATH__;
+float	tgammaf(float) __NDK_FPABI_MATH__;
 
 float	acoshf(float) __NDK_FPABI_MATH__;
 float	asinhf(float) __NDK_FPABI_MATH__;
@@ -354,6 +356,7 @@ long long llrintf(float) __NDK_FPABI_MATH__;
 long long llroundf(float) __NDK_FPABI_MATH__;
 long	lrintf(float) __NDK_FPABI_MATH__;
 long	lroundf(float) __NDK_FPABI_MATH__;
+float	nanf(const char *) __NDK_FPABI_MATH__ __pure2;
 float	nearbyintf(float) __NDK_FPABI_MATH__;
 float	nextafterf(float, float) __NDK_FPABI_MATH__;
 float	remainderf(float, float) __NDK_FPABI_MATH__;
@@ -454,7 +457,9 @@ long		lrintl(long double) __NDK_FPABI_MATH__;
 long		lroundl(long double) __NDK_FPABI_MATH__;
 #if 0
 long double	modfl(long double, long double *) __NDK_FPABI_MATH__; /* fundamentally !__pure2 */
+#endif
 long double	nanl(const char *) __NDK_FPABI_MATH__ __pure2;
+#if 0
 long double	nearbyintl(long double) __NDK_FPABI_MATH__;
 #endif
 long double	nextafterl(long double, long double) __NDK_FPABI_MATH__;
