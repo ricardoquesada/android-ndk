@@ -480,6 +480,13 @@ long double	tgammal(long double) __NDK_FPABI_MATH__;
 #endif
 long double	truncl(long double) __NDK_FPABI_MATH__;
 
+/* BIONIC: GLibc compatibility - required by the ARM toolchain */
+#ifdef _GNU_SOURCE
+void  sincos(double x, double *sin, double *cos) __NDK_FPABI_MATH__;
+void  sincosf(float x, float *sin, float *cos) __NDK_FPABI_MATH__;
+void  sincosl(long double x, long double *sin, long double *cos) __NDK_FPABI_MATH__;
+#endif
+
 /* #endif */ /* __ISO_C_VISIBLE >= 1999 */
 __END_DECLS
 

@@ -25,9 +25,26 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#ifndef ANDROID_API_LEVEL_H
-#define ANDROID_API_LEVEL_H
+#ifndef _SYS_EVENTFD_H
+#define _SYS_EVENTFD_H
 
-#define __ANDROID_API__ 9
+#include <sys/cdefs.h>
+#include <fcntl.h>
 
-#endif /* ANDROID_API_LEVEL_H */
+__BEGIN_DECLS
+
+#define  EFD_CLOEXEC   O_CLOEXEC
+#define  EFD_NONBLOCK  O_NONBLOCK
+
+/* type of event counter */
+typedef uint64_t  eventfd_t;
+
+extern int eventfd(unsigned int initval, int flags);
+
+/* Compatibility with GLibc */
+extern int eventfd_read(int fd, eventfd_t *counter);
+extern int eventfd_write(int fd, const eventfd_t counter);
+
+__END_DECLS
+
+#endif /* _SYS_EVENTFD_H */

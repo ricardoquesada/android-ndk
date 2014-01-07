@@ -113,6 +113,9 @@ extern int chdir(const char *);
 extern int fchdir(int);
 extern int rmdir(const char *);
 extern int pipe(int *);
+#ifdef _GNU_SOURCE  /* GLibc compatibility */
+extern int pipe2(int *, int);
+#endif
 extern int chroot(const char *);
 extern int symlink(const char *, const char *);
 extern int readlink(const char *, char *, size_t);
@@ -139,6 +142,7 @@ extern int fcntl(int, int, ...);
 extern int ioctl(int, int, ...);
 extern int flock(int, int);
 extern int fsync(int);
+extern int fdatasync(int);
 extern int ftruncate(int, off_t);
 
 extern int pause(void);
@@ -189,7 +193,6 @@ extern int execvpe(const char *, char * const *, char * const *);
 extern int execlpe(const char *, const char *, ...);
 extern int getfsuid(uid_t);
 extern int setfsuid(uid_t);
-extern int fdatasync(int);
 extern int getlogin_r(char* name, size_t namesize);
 extern int sethostname(const char *, size_t);
 extern int getdomainname(char *, size_t);

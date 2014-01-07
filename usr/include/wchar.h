@@ -28,6 +28,7 @@
 #ifndef _WCHAR_H_
 #define _WCHAR_H_
 
+#include <limits.h>
 #include <sys/cdefs.h>
 #include <stdio.h>
 
@@ -41,13 +42,6 @@
 
 #include <stddef.h>
 #include <sys/_wchar_limits.h>
-
-/* IMPORTANT: Any code that relies on wide character support is essentially
- *            non-portable and/or broken. the only reason this header exist
- *            is because I'm really a nice guy. However, I'm not nice enough
- *            to provide you with a real implementation. instead wchar_t == char
- *            and all wc functions are stubs to their "normal" equivalent...
- */
 
 __BEGIN_DECLS
 
@@ -71,20 +65,7 @@ typedef enum {
     WC_TYPE_MAX
 } wctype_t;
 
-/* WEOF used to be defined as simply -1, which is
- * invalid (the standard mandates that the expression must have wint_t
- * type). Revert to the old broken behaviour is _WCHAR_IS_8BIT is defined.
- * See http://b.android.com/57267 */
-#ifdef _WCHAR_IS_8BIT
-#define  WEOF        (-1)
-#else
-#define  WEOF        ((wint_t)-1)
-#endif
-#ifdef _WCHAR_IS_8BIT
-#define  WEOF        (-1)
-#else
-#define  WEOF        ((wint_t)-1)
-#endif
+#define  WEOF        ((wint_t)(-1))
 
 extern wint_t            btowc(int);
 extern int               fwprintf(FILE *, const wchar_t *, ...);

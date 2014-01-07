@@ -32,6 +32,7 @@
 #include <sys/types.h>
 #include <sys/resource.h>
 #include <linux/wait.h>
+#include <signal.h>
 
 __BEGIN_DECLS
 
@@ -52,6 +53,14 @@ static __inline__ pid_t  wait4(pid_t p, int *s, int o, struct rusage *r)
    extern pid_t  __wait4(pid_t, int *, int, struct rusage *);
    return __wait4(p,s,o,r);
 }
+
+/* Posix states that idtype_t should be an enumeration type, but
+ * the kernel headers define P_ALL, P_PID and P_PGID as constant macros
+ * instead.
+ */
+typedef int idtype_t;
+
+extern int  waitid(idtype_t which, id_t id, siginfo_t *info, int options);
 
 __END_DECLS
 
