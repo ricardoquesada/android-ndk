@@ -33,6 +33,7 @@
 #include <string.h>		/* For memset() */
 #include <sys/types.h>
 #include <asm/signal.h>
+#include <asm/sigcontext.h>
 
 #define __ARCH_SI_UID_T __kernel_uid32_t
 #include <asm/siginfo.h>
@@ -54,6 +55,7 @@ typedef int sig_atomic_t;
 #endif
 
 extern const char * const sys_siglist[];
+extern const char * const sys_signame[];
 
 static __inline__ int sigismember(sigset_t *set, int signum)
 {
@@ -121,6 +123,8 @@ extern int siginterrupt(int  sig, int  flag);
 
 extern int raise(int);
 extern int kill(pid_t, int);
+extern int killpg(int pgrp, int sig);
+extern int sigaltstack(const stack_t *ss, stack_t *oss);
 
 
 __END_DECLS

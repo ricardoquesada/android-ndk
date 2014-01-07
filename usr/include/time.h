@@ -86,20 +86,16 @@ extern void  tzset(void);
 
 /* global includes */
 extern char*     tzname[];
-#if 0 /* MISSING FROM BIONIC */
 extern int       daylight;
 extern long int  timezone;
-#endif /* MISSING */
 
 #define CLOCKS_PER_SEC     1000000
 
 extern clock_t   clock(void);
 
 /* BIONIC: extra linux clock goodies */
-extern int clock_getres(clockid_t, struct timespec *);
-extern int clock_gettime(clockid_t, struct timespec *);
-extern int clock_settime(clockid_t, const struct timespec *);
-extern int clock_nanosleep(clockid_t, int, const struct timespec *, struct timespec *);
+extern int clock_getres(int, struct timespec *);
+extern int clock_gettime(int, struct timespec *);
 
 #define CLOCK_REALTIME             0
 #define CLOCK_MONOTONIC            1

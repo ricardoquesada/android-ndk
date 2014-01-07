@@ -80,6 +80,11 @@ typedef enum {
 #else
 #define  WEOF        ((wint_t)-1)
 #endif
+#ifdef _WCHAR_IS_8BIT
+#define  WEOF        (-1)
+#else
+#define  WEOF        ((wint_t)-1)
+#endif
 
 extern wint_t            btowc(int);
 extern int               fwprintf(FILE *, const wchar_t *, ...);
@@ -107,6 +112,7 @@ extern int               mbsinit(const mbstate_t *);
 extern size_t            mbrlen(const char *, size_t, mbstate_t *);
 extern size_t            mbrtowc(wchar_t *, const char *, size_t, mbstate_t *);
 extern size_t            mbsrtowcs(wchar_t *, const char **, size_t, mbstate_t *);
+extern size_t            mbstowcs(wchar_t *, const char *, size_t);
 extern wint_t            putwc(wchar_t, FILE *);
 extern wint_t            putwchar(wchar_t);
 extern int               swprintf(wchar_t *, size_t, const wchar_t *, ...);
@@ -137,6 +143,7 @@ extern wchar_t          *wcsstr(const wchar_t *, const wchar_t *);
 extern double            wcstod(const wchar_t *, wchar_t **) __NDK_FPABI__;
 extern wchar_t          *wcstok(wchar_t *, const wchar_t *, wchar_t **);
 extern long int          wcstol(const wchar_t *, wchar_t **, int);
+extern size_t            wcstombs(char *, const wchar_t *, size_t);
 extern unsigned long int wcstoul(const wchar_t *, wchar_t **, int);
 extern wchar_t          *wcswcs(const wchar_t *, const wchar_t *);
 extern int               wcswidth(const wchar_t *, size_t);
